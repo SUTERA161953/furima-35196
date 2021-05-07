@@ -1,6 +1,11 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :user
+  belongs_to :category
+  belongs_to :status
+  belongs_to :charge
+  belongs_to :area
+  belongs_to :days
   has_one_attached :image
 
   with_options presence: true do
@@ -17,7 +22,7 @@ class Item < ApplicationRecord
     validates :days_id
   end
 
-  with_options presence: true, inclusion: { in: 300..9999999, message: '300〜9,999,999の範囲内で入力してください' }, format: { with: /\A[0-9]+\d/, message: '半角数字で入力してください' } do
+  with_options presence: true, inclusion: { in: 300..9_999_999, message: '300〜9,999,999の範囲内で入力してください' }, numericality: true do
     validates :price
   end
 end
