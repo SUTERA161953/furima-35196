@@ -1,8 +1,7 @@
 class BuysController < ApplicationController
   before_action :set_item, only: [:index, :create]
-  before_action :authenticate_user!
-  before_action :contributor_confirmation, only: :index
-  before_action :buy_present?, only: :index
+  before_action :authenticate_user!, only: :index
+  before_action :contributor_confirmation, only: [:index, :create]
 
   def index
     @buy_ship = BuyShip.new
@@ -30,11 +29,7 @@ class BuysController < ApplicationController
   end
 
   def contributor_confirmation
-    redirect_to root_path unless current_user != @item.user
-  end
-
-  def buy_present?
-    redirect_to root_path unless @item.buy.present? == false
+    redirect_to root_path if current_user == @item.user || @item.buy.present?
   end
 
   def pay_item

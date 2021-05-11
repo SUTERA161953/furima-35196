@@ -12,6 +12,11 @@ RSpec.describe BuyShip, type: :model do
       it 'すべての値が正しく入力されていれば保存できること' do
         expect(@buy_ship).to be_valid
       end
+      
+      it 'buildingは空でも保存できること' do
+        @buy_ship.building = ''
+        expect(@buy_ship).to be_valid
+      end
     end
 
     context '内容に問題がある場合' do
@@ -61,11 +66,6 @@ RSpec.describe BuyShip, type: :model do
         @buy_ship.address = ''
         @buy_ship.valid?
         expect(@buy_ship.errors.full_messages).to include("Address can't be blank")
-      end
-
-      it 'buildingは空でも保存できること' do
-        @buy_ship.building = ''
-        expect(@buy_ship).to be_valid
       end
 
       it 'phone_numberが空では登録できない' do
