@@ -7,7 +7,7 @@ RSpec.describe Item, type: :model do
     end
 
     context '商品登録できるとき' do
-      it 'imageとnameとdescriptionとcategory_idとstatus_idとcharge_idとarea_idとdays_idとpriceが存在していれば保存できること' do
+      it 'すべての値が正しく入力されていれば保存できること' do
         expect(@item).to be_valid
       end
     end
