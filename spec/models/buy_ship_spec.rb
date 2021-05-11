@@ -12,7 +12,7 @@ RSpec.describe BuyShip, type: :model do
       it 'すべての値が正しく入力されていれば保存できること' do
         expect(@buy_ship).to be_valid
       end
-      
+
       it 'buildingは空でも保存できること' do
         @buy_ship.building = ''
         expect(@buy_ship).to be_valid
@@ -20,7 +20,7 @@ RSpec.describe BuyShip, type: :model do
     end
 
     context '内容に問題がある場合' do
-      it "tokenが空では登録できないこと" do
+      it 'tokenが空では登録できないこと' do
         @buy_ship.token = nil
         @buy_ship.valid?
         expect(@buy_ship.errors.full_messages).to include("Token can't be blank")
@@ -43,7 +43,7 @@ RSpec.describe BuyShip, type: :model do
         @buy_ship.valid?
         expect(@buy_ship.errors.full_messages).to include('Postal code is invalid. Enter it as follows (e.g. 123-4567)')
       end
-      
+
       it 'area_idが空では登録できない' do
         @buy_ship.area_id = ''
         @buy_ship.valid?
@@ -71,25 +71,26 @@ RSpec.describe BuyShip, type: :model do
       it 'phone_numberが空では登録できない' do
         @buy_ship.phone_number = ''
         @buy_ship.valid?
-        expect(@buy_ship.errors.full_messages).to include("Phone number can't be blank", "Phone number is too short", "Phone number is invalid. Input only number")
+        expect(@buy_ship.errors.full_messages).to include("Phone number can't be blank", 'Phone number is too short',
+                                                          'Phone number is invalid. Input only number')
       end
 
       it 'phone_numberが9桁以下では登録できない' do
         @buy_ship.phone_number = '090123456'
         @buy_ship.valid?
-        expect(@buy_ship.errors.full_messages).to include("Phone number is too short")
+        expect(@buy_ship.errors.full_messages).to include('Phone number is too short')
       end
 
       it 'phone_numberが12桁以上では登録できない' do
         @buy_ship.phone_number = '090123456789'
         @buy_ship.valid?
-        expect(@buy_ship.errors.full_messages).to include("Phone number is too long")
+        expect(@buy_ship.errors.full_messages).to include('Phone number is too long')
       end
 
       it 'phone_numberが半角英字のみでは登録できない' do
         @buy_ship.phone_number = 'abcdefghijk'
         @buy_ship.valid?
-        expect(@buy_ship.errors.full_messages).to include("Phone number is invalid. Input only number")
+        expect(@buy_ship.errors.full_messages).to include('Phone number is invalid. Input only number')
       end
 
       it 'userが紐付いていないと保存できないこと' do
