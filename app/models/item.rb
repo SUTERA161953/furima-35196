@@ -14,16 +14,13 @@ class Item < ApplicationRecord
     validates :name
     validates :description
   end
-
+  validates :price, presence: true, numericality: { only_integer: true, message: 'is invalid. Input half-width characters' },
+                    inclusion: { in: 300..9_999_999, message: 'is out of setting range' }
   with_options presence: true, numericality: { other_than: 1 } do
     validates :category_id
     validates :status_id
     validates :charge_id
     validates :area_id
     validates :days_id
-  end
-
-  with_options presence: true, inclusion: { in: 300..9_999_999, message: '300〜9,999,999の範囲内で入力してください' }, numericality: true do
-    validates :price
   end
 end

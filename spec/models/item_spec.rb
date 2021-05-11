@@ -100,31 +100,33 @@ RSpec.describe Item, type: :model do
       it 'priceが299以下では登録できない' do
         @item.price = 299
         @item.valid?
-        expect(@item.errors.full_messages).to include('Price 300〜9,999,999の範囲内で入力してください')
+        expect(@item.errors.full_messages).to include('Price is out of setting range')
       end
 
       it 'priceが10,000,000以上では登録できない' do
         @item.price = 10_000_000
         @item.valid?
-        expect(@item.errors.full_messages).to include('Price 300〜9,999,999の範囲内で入力してください')
+        expect(@item.errors.full_messages).to include('Price is out of setting range')
       end
 
       it 'priceが半角英数字混合では登録できない' do
         @item.price = '300a'
         @item.valid?
-        expect(@item.errors.full_messages).to include('Price is not a number')
+        expect(@item.errors.full_messages).to include('Price is invalid. Input half-width characters')
       end
 
       it 'priceが半角英字のみでは登録できない' do
         @item.price = 'aaa'
         @item.valid?
-        expect(@item.errors.full_messages).to include('Price 300〜9,999,999の範囲内で入力してください', 'Price is not a number')
+        expect(@item.errors.full_messages).to include('Price is out of setting range',
+                                                      'Price is invalid. Input half-width characters')
       end
 
       it 'priceが全角では登録できない' do
         @item.price = '３００'
         @item.valid?
-        expect(@item.errors.full_messages).to include('Price 300〜9,999,999の範囲内で入力してください', 'Price is not a number')
+        expect(@item.errors.full_messages).to include('Price is out of setting range',
+                                                      'Price is invalid. Input half-width characters')
       end
       it 'ユーザーが紐付いていなければ投稿できない' do
         @item.user = nil

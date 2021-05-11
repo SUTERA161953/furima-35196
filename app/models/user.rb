@@ -7,19 +7,18 @@ class User < ApplicationRecord
   has_many :items
   has_many :buys
 
-  with_options format: { with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i, message: '半角英数字混合で入力してください' } do
-    validates :password
-  end
+  validates :password,
+            format: { with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i, message: 'is invalid. Include both letters and numbers' }
   with_options presence: true do
     validates :name
     validates :birthday
   end
-  with_options presence: true, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: '全角(漢字・ひらがな・カタカナ)文字を使用してください' } do
-    validates :first_name
+  with_options presence: true, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: 'is invalid. Input full-width characters' } do
     validates :last_name
+    validates :first_name
   end
-  with_options presence: true, format: { with: /\A[ァ-ヶー－]+\z/, message: '全角(カタカナ)文字を使用してください' } do
-    validates :first_name_kana
+  with_options presence: true, format: { with: /\A[ァ-ヶー－]+\z/, message: 'is invalid. Input full-width katakana characters' } do
     validates :last_name_kana
+    validates :first_name_kana
   end
 end
